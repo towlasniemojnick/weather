@@ -7,7 +7,7 @@ cursor.execute("""
 	id	INTEGER,
 	name	TEXT UNIQUE,
 	country	TEXT,
-	PRIMARY KEY("id" AUTOINCREMENT)
+	PRIMARY KEY(id AUTOINCREMENT)
 	)
     """)
 
@@ -20,7 +20,7 @@ cursor.execute("""
                humidity NUMERIC,
                wind_speed NUMERIC,
                wind_direction NUMERIC,
-               PRIMARY KEY("id" AUTOINCREMENT),
+               PRIMARY KEY(id AUTOINCREMENT),
                FOREIGN KEY (city_id) REFERENCES city(id)
     )
     """)
