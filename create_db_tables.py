@@ -1,7 +1,9 @@
 import sqlite3
 
+#creating the connection to the database
 cursor = sqlite3.connect('weather.db')
 
+#creating dimension table for cities
 cursor.execute("""
     CREATE TABLE city (
 	id	INTEGER,
@@ -11,6 +13,7 @@ cursor.execute("""
 	)
     """)
 
+#creating event table for weather
 cursor.execute("""
     CREATE TABLE weather(
                id INTEGER,
