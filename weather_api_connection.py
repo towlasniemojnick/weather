@@ -1,8 +1,10 @@
 import os
+
 import requests
 from dotenv import load_dotenv
 
 def get_the_key():
+    #load the api key
     load_dotenv()
     api_key = os.getenv('WEATHER_API_KEY')
     return api_key
@@ -10,14 +12,30 @@ def get_the_key():
 def extract_weather_data(api_key, city):
     print("Trying to get data from OpenWeatherMap...")
 
-    api_url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}"
+    #formulate the url string
+    api_url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 
-    req = requests.get(api_url)
-    req.raise_for_status()
+    #trying to get the response
+    try:
+        req = requests.get(api_url)
+        req.raise_for_status()
 
-    data = req.json()
+        data = req.json()
+        print(f"Data fetched from OpenWeatherMap for {city}")
 
-    print(data)
+        #return data as is
+        return(data)
+
+    #handle the exception - not providing the full description, as this may reveal the API key in some case
+    except requests.exceptions.HTTPError as err:
+
+        error_response = err.response
+        status_code = error_response.status_code
+        reason = error_response.reason
+
+        print(f"Error: {status_code} - {reason}")
 
 if __name__ == "__main__":
-    extract_weather_data(get_the_key(), "Warsaw")
+    city_data = extract_weather_data(get_the_key(), "Miedzyzdroje")
+
+    print(city_data)
