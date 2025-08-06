@@ -9,8 +9,9 @@ def get_the_key():
     api_key = os.getenv('WEATHER_API_KEY')
     return api_key
 
-def extract_weather_data(api_key, city):
+def extract_weather_data(city):
     print("Trying to get data from OpenWeatherMap...")
+    api_key = get_the_key()
 
     #formulate the url string
     api_url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
@@ -36,6 +37,6 @@ def extract_weather_data(api_key, city):
         print(f"Error: {status_code} - {reason}")
 
 if __name__ == "__main__":
-    city_data = extract_weather_data(get_the_key(), "Miedzyzdroje")
+    city_data = extract_weather_data("Miedzyzdroje")
 
     print(city_data)

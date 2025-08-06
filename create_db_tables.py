@@ -22,7 +22,7 @@ cursor.execute("""
                temperature NUMERIC,
                humidity NUMERIC,
                wind_speed NUMERIC,
-               wind_direction NUMERIC,
+               wind_direction TEXT,
                PRIMARY KEY(id AUTOINCREMENT),
                FOREIGN KEY (city_id) REFERENCES city(id)
     )
