@@ -5,12 +5,16 @@ def fetch_weather_for_city(city):
     # this function should return the row to be inserted in the weather table
 
     # get the raw data
-    raw_data_for_city = wac.extract_weather_data(city)
-    print(raw_data_for_city)
+    weather_dict = wac.extract_weather_data(city)
+    print(weather_dict)
 
-# let's extract what we need
+    #cherry-picking the items we want
+    temp = weather_dict['main']['temp']
+    humidity = weather_dict['main']['humidity']
+    wind_speed = weather_dict['wind']['speed']
+    wind_direction = map_wind_direction(weather_dict['wind']['deg'])
 
-# date TEXT, temperature NUMERIC, humidity NUMERIC, wind_speed NUMERIC, wind_direction NUMERIC,
+    return temp, humidity, wind_speed, wind_direction
 
 def fetch_list_of_cities():
     #connect to database
@@ -42,5 +46,4 @@ def map_wind_direction(wind_direction):
 
 
 if __name__ == '__main__':
- #   fetch_weather_for_city('London')
-    print(fetch_list_of_cities())
+   fetch_weather_for_city('London')
