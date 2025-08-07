@@ -1,20 +1,22 @@
 import weather_api_connection as wac
 import sqlite3 as sq
+import datetime
 
-def fetch_weather_for_city(city):
+
+def fetch_weather_for_city(id,city):
     # this function should return the row to be inserted in the weather table
 
     # get the raw data
     weather_dict = wac.extract_weather_data(city)
-    print(weather_dict)
 
     #cherry-picking the items we want
     temp = weather_dict['main']['temp']
     humidity = weather_dict['main']['humidity']
     wind_speed = weather_dict['wind']['speed']
     wind_direction = map_wind_direction(weather_dict['wind']['deg'])
+    today = datetime.date.today()
 
-    return temp, humidity, wind_speed, wind_direction
+    return id,today,temp, humidity, wind_speed, wind_direction
 
 def fetch_list_of_cities():
     #connect to database
@@ -30,6 +32,22 @@ def fetch_list_of_cities():
 
     return cities
 
+def get_weather_for_all_cities():
+
+    cities = fetch_list_of_cities()
+    weather_list = []
+
+    for city in cities:
+        weather_list.append(fetch_weather_for_city(city[0],city[1]))
+
+    print(weather_list)
+
+    conn = sq.connect('weather.db')
+    cursor = conn.cursor()
+
+    cursor.executemany('INSERT INTO weather(city_id, date, temperature, humidity, wind_speed, wind_direction) VALUES(?,?,?,?,?,?)',weather_list)
+    conn.commit()
+    conn.close()
 
 def map_wind_direction(wind_direction):
     #this function should switch from degree to direction
@@ -46,4 +64,4 @@ def map_wind_direction(wind_direction):
 
 
 if __name__ == '__main__':
-   fetch_weather_for_city('London')
+    get_weather_for_all_cities()
