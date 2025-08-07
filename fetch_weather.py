@@ -1,5 +1,3 @@
-from pandas.core.computation.ops import isnumeric
-
 import weather_api_connection as wac
 
 
@@ -16,15 +14,16 @@ def fetch_weather_for_city(city):
 
 def map_wind_direction(wind_direction):
     #this function should switch from degree to direction
-    if isnumeric(wind_direction):
+    if isinstance(wind_direction,(int, float)) and 0 <= wind_direction <= 360:
         directions = ['North', 'North-East', 'East', 'South-East', 'South', 'South-West', 'West', 'North-West']
 
-        wind_direction = wind_direction + 360/len(directions) #rotating the scale
+        wind_direction = wind_direction + 22.5 #rotating the scale
+        wind_direction = wind_direction % 360
 
-        i = int(wind_direction/45) % 8
-        return directions[i]
+        index = int(wind_direction/45)
+        return directions[index]
     else:
-        return 'North'
+        return 'Unknown'
 
 
 if __name__ == '__main__':
@@ -33,4 +32,8 @@ if __name__ == '__main__':
     print(map_wind_direction(230))
     print(map_wind_direction(1))
     print(map_wind_direction(350))
+    print(map_wind_direction(360))
     print(map_wind_direction(22.5))
+    print(map_wind_direction('error'))
+    print(map_wind_direction(-1))
+    print(map_wind_direction(367))
