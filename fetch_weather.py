@@ -21,6 +21,9 @@ def fetch_list_of_cities():
     cursor.execute('SELECT id, name FROM city')
     cities = cursor.fetchall()
 
+    #close the connection
+    conn.close()
+
     return cities
 
 
