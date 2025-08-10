@@ -10,13 +10,13 @@ def fetch_weather_for_city(id,city):
     weather_dict = wac.extract_weather_data(city)
 
     #cherry-picking the items we want
-    temp = weather_dict['main']['temp']
-    humidity = weather_dict['main']['humidity']
-    wind_speed = weather_dict['wind']['speed']
-    wind_direction = map_wind_direction(weather_dict['wind']['deg'])
+    temp = weather_dict.get("main").get("temp")
+    humidity = weather_dict.get("main").get("humidity")
+    wind_speed = weather_dict.get("wind").get("speed")
+    wind_direction = map_wind_direction(weather_dict.get("wind").get("deg"))
     today = datetime.date.today()
 
-    return id,today,temp, humidity, wind_speed, wind_direction
+    return id, today, temp, humidity, wind_speed, wind_direction
 
 def fetch_list_of_cities():
     #connect to database
