@@ -35,6 +35,10 @@ def extract_weather_data(city):
 
         print(f"Error: {status_code} - {reason}")
 
+    except requests.exceptions.RequestException as err:
+
+        print(f"Error: Could not fetch data from OpenWeatherMap for {city}. Check connection or API key and try again.")
+
 if __name__ == "__main__":
     city_data = extract_weather_data("Miedzyzdroje")
 
