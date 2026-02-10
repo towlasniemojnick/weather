@@ -11,7 +11,9 @@ def get_the_key():
 def extract_weather_data(city):
     print("Trying to get data from OpenWeatherMap...")
     api_key = get_the_key()
-
+    if api_key == "insert your API key here" or not api_key:
+        print("You need to configure the API key .env!")
+        exit()
     #formulate the url string
     api_url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric"
 
